@@ -1,9 +1,10 @@
-
+import Nav from './components/Navbar.jsx'
 
 function App() {
   return (
     <div>
-      <h1 className="bg-black">App</h1>
+      <Nav />
+      <div className="bg-indigo-600 w-full h-screen"></div>
     </div>
   )
 }
