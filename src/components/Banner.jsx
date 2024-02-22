@@ -1,8 +1,6 @@
 import React from 'react'
-import Button from './Button'
 import SearchForm from './SearchForm'
 import BgLogo from '../assets/bg-pattern-home-6-about-5.svg'
-import MagnifyingGlass from '../assets/magnifying-glass.svg'
 const Banner = () => {
   return (
     <section className='bg-primary-300 min-h-[300px] flex items-center font-livvic relative overflow-hidden'>
