@@ -21,6 +21,17 @@ export default {
       fontFamily: {
         livvic: ['Livvic', ...defaultTheme.fontFamily.sans],
       },
+      fontSize: {
+        'h1large': '6.25rem',
+        'h1small': '4rem',
+        'h2': '3rem',
+        'h3': '1.125rem',
+        'body1': '1.125rem',
+        'body2': '0.9375rem',
+      },
+      screens: {
+        'desktop': '1440px',
+      },
     },
   },
   plugins: [],
