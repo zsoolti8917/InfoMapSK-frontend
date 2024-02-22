@@ -1,10 +1,10 @@
 import Nav from './components/Navbar.jsx'
-
+import Hero from './components/Hero.jsx'
 function App() {
   return (
     <div>
       <Nav />
-      <div className="bg-indigo-600 w-full h-screen"></div>
+      <Hero />
     </div>
   )
 }

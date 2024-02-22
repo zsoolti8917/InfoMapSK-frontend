@@ -22,10 +22,10 @@ const Navbar = () => {
       <div className='md:flex items-center justify-between px-4 py-4 max-w-container m-auto'>
         <div className='font-bold text-2xl cursor-pointer flex items-center 
         text-primary-100'>
-          <img src={Logo} alt="" className='w-[240px]'/>
+          <img src={Logo} alt="" className='sm:w-[240px] w-[180px]'/>
         </div>
 
-        <div onClick={() => setOpen(!open)} className='text-3xl z-30 fixed right-8 top-10 cursor-pointer md:hidden'>
+        <div onClick={() => setOpen(!open)} className='text-3xl z-30 fixed right-8 sm:top-9 top-6 cursor-pointer md:hidden'>
         <img src={open ? Close : Hamburger} alt="" className='w-[30px]' />
         </div>
 
