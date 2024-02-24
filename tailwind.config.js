@@ -32,6 +32,9 @@ export default {
       screens: {
         'desktop': '1440px',
       },
+      variants: {
+        fill: ['hover', 'focus'], // this line does the trick
+      },
     },
   },
   plugins: [],
