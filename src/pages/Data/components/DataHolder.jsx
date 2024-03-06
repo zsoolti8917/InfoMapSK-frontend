@@ -1,5 +1,4 @@
-import React from 'react'
-import Button from './Button'
+import Button from '../../../components/Button.jsx'
 import DataHolderItem from './DataHolderItem.jsx'
 const DataHolder = () => {
   return (
