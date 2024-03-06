@@ -1,8 +1,9 @@
 import Data from './pages/Data/Data.jsx'
+import Home from './pages/Home/Home.jsx'
 function App() {
   return (
     <div>
-      <Data />
+      <Home />
     </div>
   )
 }
