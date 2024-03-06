@@ -1,4 +1,3 @@
-import React from 'react'
 import bgGraph1 from '../../../assets/bg-pattern-home-4-about-3.svg'
 import bgGraph2 from '../../../assets/bg-pattern-home-5.svg'
 import iconQuote from '../../../assets/icon-quotes.svg'
