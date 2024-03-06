@@ -1,6 +1,5 @@
-import React from 'react'
-import Button from './Button'
-import MagnifyingGlass from '../assets/magnifying-glass.svg'
+import Button from '../../../components/Button'
+import MagnifyingGlass from '../../../assets/magnifying-glass.svg'
 const SearchForm = () => {
   return (
     <form action="submit" className='relative'>

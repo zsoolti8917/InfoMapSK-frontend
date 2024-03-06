@@ -1,5 +1,4 @@
-import React from 'react'
-import Grafika from '../assets/icon-twitter.svg'
+import Grafika from '../../../assets/icon-twitter.svg'
 const DataHolderItem = () => {
   return (
     <div className='grid md:grid-cols-2 pt-10'>

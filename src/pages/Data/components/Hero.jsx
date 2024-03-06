@@ -1,5 +1,4 @@
-import React from 'react'
-import bgGraph from '../assets/bg-pattern-about-1-mobile-nav-1.svg'
+import bgGraph from '../../../assets/bg-pattern-about-1-mobile-nav-1.svg'
 
 const Hero = () => {
   return (
