@@ -1,16 +1,12 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
-import Formular from './components/Formular'
 import Footer from '../../components/Footer'
-import KontaktInfo from './components/KontaktInfo'
+import Content from '../Contact/components/Content'
 const Contact = () => {
   return (
     <>
     <Navbar />
-    <div>
-      <KontaktInfo />
-      <Formular />
-    </div>
+    <Content />
     <Footer />
     </>
   )
