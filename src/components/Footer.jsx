@@ -1,5 +1,5 @@
 import Logo from '../assets/logothick.png'
-
+import { Link } from 'react-router-dom'
 
 
 const Footer = () => {
@@ -9,8 +9,8 @@ const Footer = () => {
       <img src={Logo} alt="" className='max-w-[240px]'/>
       <nav className='col-start-1 md:pb-8 md:pt-4'>
         <ul className='flex gap-6 md:flex-col md:gap-1 desktop:flex-row desktop:gap-8'>
-          <li className='hover:text-primary-300 tranzition-all duration-300 cursor-pointer'>Vizualizovaná dáta</li>
-          <li className='hover:text-primary-300 tranzition-all duration-300 cursor-pointer'>O projekte</li>
+         <Link to='/data'><li className='hover:text-primary-300 tranzition-all duration-300 cursor-pointer'>Vizualizovaná dáta</li></Link> 
+         <Link to='/about'><li className='hover:text-primary-300 tranzition-all duration-300 cursor-pointer'>O projekte</li></Link> 
         </ul>
       </nav>
       
