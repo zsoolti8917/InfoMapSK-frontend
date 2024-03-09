@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
-import Content from '../Contact/components/Content'
+import Content from './components/Content.jsx'
 const Contact = () => {
   return (
     <>
