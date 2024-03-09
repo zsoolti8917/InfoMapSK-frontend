@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Router } from "react-router-dom";
+import axios from 'axios';
+import  { useNavigate } from 'react-router-dom';
 
 const Formular = () => {
-
+const navigate = useNavigate();
 const formik = useFormik({
   initialValues: {
     name: '',
@@ -20,10 +22,26 @@ const formik = useFormik({
     message: Yup.string().required('Povinné pole')
   }),
 
-  onSubmit: values => {
-    console.log(values);
+  onSubmit: async (values, { setSubmitting, resetForm }) => {
+    // Use Axios to send a POST request
+    try {
+      const response = await axios.post('http://localhost:5500/send-email', values);
+      console.log(response.data);
+      setTimeout(() => {
+        navigate('/success'); // Navigate to the success page
+        
+        // Set another timeout to go back to the contact page after 3 seconds
+        setTimeout(() => {
+          navigate('/contact');
+        }, 3000); // 3000 milliseconds = 3 seconds
+      }, 500);
+    } catch (error) {
+      console.error(error);
+      // Handle the error as needed, e.g., show an error message
+    }
+    setSubmitting(false); // Set submitting to false after the form is handled
+    resetForm(); // Optionally reset the form to initial values
   }
-
 });
 
 
