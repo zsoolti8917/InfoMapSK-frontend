@@ -14,12 +14,12 @@ const Navbar = () => {
   let [open, setOpen] = useState(false);
 
   return (
-    <div className='shadow-md w-full fixed top-0 left-0 bg-primary-700'>
+    <div className='shadow-md w-full bg-primary-700 z-50'>
       {/* Overlay */}
       <div className={`${open ? 'fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-10' : 'hidden'}`} onClick={() => setOpen(false)}></div>
 
       
-      <div className='md:flex items-center justify-between px-4 py-4 max-w-container m-auto'>
+      <div className='md:flex items-center justify-between px-4 py-4 md:px-0 max-w-container m-auto'>
         <div className='font-bold text-2xl cursor-pointer flex items-center 
         text-primary-100'>
           <Link to='/'> <img src={Logo} alt="" className='sm:w-[240px] w-[180px]'/></Link>
