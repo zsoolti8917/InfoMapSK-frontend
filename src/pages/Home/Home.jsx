@@ -4,6 +4,7 @@ import Banner from "../../components/Banner"
 import Info from "./components/Info"
 import Testimonials from "./components/Testimonials"
 import Footer from "../../components/Footer"
+import React from 'react'
 const Home = () => {
   return (
     <>

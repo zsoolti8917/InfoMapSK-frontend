@@ -2,6 +2,7 @@ import IconPerson from '../../../assets/icon-person.svg'
 import IconCog from '../../../assets/icon-cog.svg'
 import IconChart from '../../../assets/icon-chart.svg'
 import bgGraph from '../../../assets/bg-pattern-home-3.svg'
+import React from 'react'
 const Info = () => {
   return (
     <section className='bg-secondary-800 font-livvic relative'>

@@ -1,5 +1,6 @@
 import Button from '../../../components/Button.jsx'
 import DataHolderItem from './DataHolderItem.jsx'
+import React from 'react'
 const DataHolder = () => {
   return (
     <section className='bg-secondary-800 text-primary-100'>

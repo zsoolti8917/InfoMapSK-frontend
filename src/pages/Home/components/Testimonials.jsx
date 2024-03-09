@@ -1,6 +1,7 @@
 import bgGraph1 from '../../../assets/bg-pattern-home-4-about-3.svg'
 import bgGraph2 from '../../../assets/bg-pattern-home-5.svg'
 import iconQuote from '../../../assets/icon-quotes.svg'
+import React from 'react'
 const Testimonials = () => {
   return (
     <section className='bg-primary-700 text-primary-100 font-livvic relative'>

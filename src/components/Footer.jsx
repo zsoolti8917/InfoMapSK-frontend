@@ -1,6 +1,6 @@
 import Logo from '../assets/logothick.png'
 import { Link } from 'react-router-dom'
-
+import React from 'react'
 
 const Footer = () => {
   return (

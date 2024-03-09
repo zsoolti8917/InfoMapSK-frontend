@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { Router } from "react-router-dom";
 import axios from 'axios';
 import  { useNavigate } from 'react-router-dom';
+import React from "react";
 
 const Formular = () => {
 const navigate = useNavigate();
@@ -23,18 +24,13 @@ const formik = useFormik({
   }),
 
   onSubmit: async (values, { setSubmitting, resetForm }) => {
-    // Use Axios to send a POST request
     try {
       const response = await axios.post('http://localhost:5500/send-email', values);
       console.log(response.data);
+      navigate('/contact/success'); // Navigate to the success page
       setTimeout(() => {
-        navigate('/success'); // Navigate to the success page
-        
-        // Set another timeout to go back to the contact page after 3 seconds
-        setTimeout(() => {
-          navigate('/contact');
-        }, 3000); // 3000 milliseconds = 3 seconds
-      }, 500);
+        navigate('/contact'); // Navigate back to the contact page after 3 seconds
+      }, 3000);
     } catch (error) {
       console.error(error);
       // Handle the error as needed, e.g., show an error message

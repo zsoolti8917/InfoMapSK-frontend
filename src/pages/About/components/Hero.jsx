@@ -1,5 +1,5 @@
 import bgGraph from '../../../assets/bg-pattern-about-1-mobile-nav-1.svg'
-
+import React from 'react'
 const Hero = () => {
   return (
     <section className='bg-primary-700 w-full md:min-h-fit min-h-96 md:pt-38 pt-32 relative z-[-1] overflow-hidden pb-32 lg:pb-20'>

@@ -9,6 +9,7 @@ import About from './pages/About/About.jsx'
 import FAQ from './pages/FAQ/FAQ.jsx'
 import ScrollToTop from './components/ScrollToTop.jsx'
 import Contact from './pages/Contact/Contact.jsx'
+import Succes from './pages/Contact/components/Succes.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -20,6 +21,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path='/Data' element={<Data/>} />
       <Route path='/FAQ' element={<FAQ/>} />
       <Route path='/contact' element={<Contact/>} />
+      <Route path='*' element={<Home />} />
+      <Route path='/contact/success' element={<Succes/>} />
     </Routes>
     </BrowserRouter>
   </React.StrictMode>,
