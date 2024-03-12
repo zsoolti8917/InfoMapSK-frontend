@@ -6,11 +6,13 @@ import Footer from '../../components/Footer.jsx'
 import DataHolder from './components/DataHolder.jsx'
 import DataFetcher from './components/DataFetcher.jsx'
 import React from 'react'
+import SlovakiaMap from './components/Map.jsx'
 const Data = () => {
   return (
     <div>
     <Nav />
     <Hero />
+    <SlovakiaMap />
     <DataFetcher />
     <DataHolder />
     <Banner />
