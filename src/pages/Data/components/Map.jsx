@@ -40,6 +40,70 @@ const normalStyle = {
   fillOpacity: 0.2,
 };
 
+const visualizeData = (jsonData) => {
+  // Implement your data visualization logic here
+  console.log('Visualizing data:', jsonData);
+};
+
+const sendActiveRegionToBackend = async (elementName) => {
+  const storageKey = `RegionsData-${elementName}`;
+  const storedData = localStorage.getItem(storageKey);
+
+  if (storedData) {
+    const data = JSON.parse(storedData);
+    console.log('Retrieved from localStorage:', data);
+    visualizeData(data); // Assuming this function handles the visualization
+  } else {
+    try {
+      const response = await axios.get(`http://localhost:5500/api/regions/${elementName}`);
+      console.log('Data received:', response.data);
+      localStorage.setItem(storageKey, JSON.stringify(response.data)); // Store the fetched data
+      visualizeData(response.data);
+    } catch (error) {
+      console.error('Error fetching data from backend:', error);
+    }
+  }
+};
+
+const sendActiveDistrictsToBackend = async (elementName) => {
+  const storageKey = `DistrictsData-${elementName}`;
+  const storedData = localStorage.getItem(storageKey);
+
+  if (storedData) {
+    const data = JSON.parse(storedData);
+    console.log('Retrieved from localStorage:', data);
+    visualizeData(data); // Assuming this function handles the visualization
+  } else {
+    try {
+      const response = await axios.get(`http://localhost:5500/api/districts/${elementName}`);
+      console.log('Data received:', response.data);
+      localStorage.setItem(storageKey, JSON.stringify(response.data)); // Store the fetched data
+      visualizeData(response.data);
+    } catch (error) {
+      console.error('Error fetching data from backend:', error);
+    }
+  }
+};
+
+const sendActiveCitiesToBackend = async (elementName) => {
+  const storageKey = `CitiesData-${elementName}`;
+  const storedData = localStorage.getItem(storageKey);
+
+  if (storedData) {
+    const data = JSON.parse(storedData);
+    console.log('Retrieved from localStorage:', data);
+    visualizeData(data); // Assuming this function handles the visualization
+  } else {
+    try {
+      const response = await axios.get(`http://localhost:5500/api/cities/${elementName}`);
+      console.log('Data received:', response.data);
+      localStorage.setItem(storageKey, JSON.stringify(response.data)); // Store the fetched data
+      visualizeData(response.data);
+    } catch (error) {
+      console.error('Error fetching data from backend:', error);
+    }
+  }
+};
 
 
 const RegionsLayer = ({ data , setActiveRegionIDN4, setActiveDistrictName }) => {
@@ -77,7 +141,8 @@ const onEachFeature = (feature, layer) => {
       resetActiveRegion();
       clickedLayer.setStyle(hoverStyle);
       activeRegionRef.current = clickedLayer;
-
+      sendActiveRegionToBackend(clickedLayer.feature.properties.IDN4);
+      
       const bounds = clickedLayer.getBounds();
       const center = bounds.getCenter();
       map.flyTo(center, map.getZoom(), {
@@ -127,9 +192,10 @@ const DistrictsLayer = ({ data, activeRegionIDN4, setActiveDistrictName }) => {
       click: (e) => {
         const clickedLayer = e.target;
         setActiveDistrictName(clickedLayer.feature.properties.NM3);
-
+        
         resetActiveDistrict(); // Reset style of previously active district
-
+sendActiveDistrictsToBackend(clickedLayer.feature.properties.IDN4);
+console.log(clickedLayer.feature.properties);
         clickedLayer.setStyle({
           // Define the style for the active district
           fillColor: 'blue', // Example color, adjust as needed
@@ -137,7 +203,6 @@ const DistrictsLayer = ({ data, activeRegionIDN4, setActiveDistrictName }) => {
         });
 
         activeDistrictRef.current = clickedLayer; // Set the clicked layer as the active district
-
         const bounds = clickedLayer.getBounds();
         map.fitBounds(bounds); // Zoom to the district
       },
@@ -218,6 +283,10 @@ const CitiesLayer = ({ data, activeDistrictName }) => {
             layer.closeTooltip(); // Hide the tooltip
           });
 
+          marker.on('click', () => {
+            sendActiveCitiesToBackend(feature.properties.IDN5);
+          });
+
           return marker;
         }
       }).addTo(map);
@@ -240,11 +309,14 @@ const SlovakiaMap = () => {
   const [activeRegionIDN4, setActiveRegionIDN4] = useState(null); // Now tracking the IDN4 of the active region
   const [citiesData, setCitiesData] = useState(null);
   const [activeDistrictName, setActiveDistrictName] = useState(null);
+
+
   const corner1 = L.latLng(47.205, 13.996); // Southwest corner of Slovakia
 const corner2 = L.latLng(50.149, 23.862); // Northeast corner of Slovakia
-
 // Create a LatLngBounds object
 const bounds = L.latLngBounds(corner1, corner2);
+
+
   useEffect(() => {
     // Load the GeoJSON data when the component mounts
     axios.get('http://localhost:5500/get-slovakia-geojson')
@@ -286,7 +358,7 @@ const bounds = L.latLngBounds(corner1, corner2);
 
   return (
     <div className="w-full h-full">
-      <MapContainer center={[48.669, 19.699]} minZoom={9} zoom={9} maxBounds={bounds}  style={{ height: '50vh', width: '100%' }}>
+      <MapContainer center={[48.669, 19.699]} minZoom={8} zoom={8}   style={{ height: '50vh', width: '100%' }}>
         {slovakiaData && <BoundaryLayer geojsonData={slovakiaData} />}
         {RegionsData && <RegionsLayer data={RegionsData} setActiveRegionIDN4={setActiveRegionIDN4} />}
         {districtsData && activeRegionIDN4 && <DistrictsLayer data={districtsData} activeRegionIDN4={activeRegionIDN4} setActiveDistrictName={setActiveDistrictName} />}
