@@ -1,11 +1,14 @@
 // src/SlovakiaMap.js
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { MapContainer, TileLayer, useMap, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-boundary-canvas';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
+import { DataContext } from './DataContext';
+import { useNavigate, useParams } from 'react-router-dom';
+
 // Component to apply the boundary canvas using the GeoJSON
 const BoundaryLayer = ({ geojsonData }) => {
   const map = useMap();
@@ -40,73 +43,9 @@ const normalStyle = {
   fillOpacity: 0.2,
 };
 
-const visualizeData = (jsonData) => {
-  // Implement your data visualization logic here
-  console.log('Visualizing data:', jsonData);
-};
-
-const sendActiveRegionToBackend = async (elementName) => {
-  const storageKey = `RegionsData-${elementName}`;
-  const storedData = localStorage.getItem(storageKey);
-
-  if (storedData) {
-    const data = JSON.parse(storedData);
-    console.log('Retrieved from localStorage:', data);
-    visualizeData(data); // Assuming this function handles the visualization
-  } else {
-    try {
-      const response = await axios.get(`http://localhost:5500/api/regions/${elementName}`);
-      console.log('Data received:', response.data);
-      localStorage.setItem(storageKey, JSON.stringify(response.data)); // Store the fetched data
-      visualizeData(response.data);
-    } catch (error) {
-      console.error('Error fetching data from backend:', error);
-    }
-  }
-};
-
-const sendActiveDistrictsToBackend = async (elementName) => {
-  const storageKey = `DistrictsData-${elementName}`;
-  const storedData = localStorage.getItem(storageKey);
-
-  if (storedData) {
-    const data = JSON.parse(storedData);
-    console.log('Retrieved from localStorage:', data);
-    visualizeData(data); // Assuming this function handles the visualization
-  } else {
-    try {
-      const response = await axios.get(`http://localhost:5500/api/districts/${elementName}`);
-      console.log('Data received:', response.data);
-      localStorage.setItem(storageKey, JSON.stringify(response.data)); // Store the fetched data
-      visualizeData(response.data);
-    } catch (error) {
-      console.error('Error fetching data from backend:', error);
-    }
-  }
-};
-
-const sendActiveCitiesToBackend = async (elementName) => {
-  const storageKey = `CitiesData-${elementName}`;
-  const storedData = localStorage.getItem(storageKey);
-
-  if (storedData) {
-    const data = JSON.parse(storedData);
-    console.log('Retrieved from localStorage:', data);
-    visualizeData(data); // Assuming this function handles the visualization
-  } else {
-    try {
-      const response = await axios.get(`http://localhost:5500/api/cities/${elementName}`);
-      console.log('Data received:', response.data);
-      localStorage.setItem(storageKey, JSON.stringify(response.data)); // Store the fetched data
-      visualizeData(response.data);
-    } catch (error) {
-      console.error('Error fetching data from backend:', error);
-    }
-  }
-};
 
 
-const RegionsLayer = ({ data , setActiveRegionIDN4, setActiveDistrictName }) => {
+const RegionsLayer = ({ data , setActiveRegionIDN4, setActiveDistrictName, handleRegionClick }) => {
 
 const activeRegionRef = useRef(null);
 const map = useMap();
@@ -141,8 +80,7 @@ const onEachFeature = (feature, layer) => {
       resetActiveRegion();
       clickedLayer.setStyle(hoverStyle);
       activeRegionRef.current = clickedLayer;
-      sendActiveRegionToBackend(clickedLayer.feature.properties.IDN4);
-      
+      handleRegionClick(clickedLayer.feature.properties.IDN4);
       const bounds = clickedLayer.getBounds();
       const center = bounds.getCenter();
       map.flyTo(center, map.getZoom(), {
@@ -163,7 +101,7 @@ const onEachFeature = (feature, layer) => {
   );
 };
 
-const DistrictsLayer = ({ data, activeRegionIDN4, setActiveDistrictName }) => {
+const DistrictsLayer = ({ data, activeRegionIDN4, setActiveDistrictName, handleDistrictClick }) => {
   const map = useMap();
   const activeDistrictRef = useRef(null);
 
@@ -194,8 +132,7 @@ const DistrictsLayer = ({ data, activeRegionIDN4, setActiveDistrictName }) => {
         setActiveDistrictName(clickedLayer.feature.properties.NM3);
         
         resetActiveDistrict(); // Reset style of previously active district
-sendActiveDistrictsToBackend(clickedLayer.feature.properties.IDN4);
-console.log(clickedLayer.feature.properties);
+        handleDistrictClick(clickedLayer.feature.properties.IDN4);
         clickedLayer.setStyle({
           // Define the style for the active district
           fillColor: 'blue', // Example color, adjust as needed
@@ -237,7 +174,7 @@ console.log(clickedLayer.feature.properties);
   return null;
 };
 
-const CitiesLayer = ({ data, activeDistrictName }) => {
+const CitiesLayer = ({ data, activeDistrictName, handleCityClick }) => {
   const map = useMap();
 
   useEffect(() => {
@@ -284,7 +221,7 @@ const CitiesLayer = ({ data, activeDistrictName }) => {
           });
 
           marker.on('click', () => {
-            sendActiveCitiesToBackend(feature.properties.IDN5);
+            handleCityClick(feature.properties.IDN5);
           });
 
           return marker;
@@ -309,9 +246,29 @@ const SlovakiaMap = () => {
   const [activeRegionIDN4, setActiveRegionIDN4] = useState(null); // Now tracking the IDN4 of the active region
   const [citiesData, setCitiesData] = useState(null);
   const [activeDistrictName, setActiveDistrictName] = useState(null);
+  const { updateSelection } = useContext(DataContext);
+  const navigate = useNavigate();
 
+  const handleRegionClick = (id) => {
+    updateSelection('region', id);
+    //navigate(`/data/region/${id}`);
 
-  const corner1 = L.latLng(47.205, 13.996); // Southwest corner of Slovakia
+    console.log(id);
+  };
+
+  const handleDistrictClick = (id) => {
+    updateSelection('district', id);
+    //navigate(`/data/district/${id}`);
+    console.log(id);
+  };
+
+  const handleCityClick = (id) => {
+    updateSelection('city', id);
+    //navigate(`/data/city/${id}`);
+    console.log(id);
+  };
+
+const corner1 = L.latLng(47.205, 13.996); // Southwest corner of Slovakia
 const corner2 = L.latLng(50.149, 23.862); // Northeast corner of Slovakia
 // Create a LatLngBounds object
 const bounds = L.latLngBounds(corner1, corner2);
@@ -360,9 +317,9 @@ const bounds = L.latLngBounds(corner1, corner2);
     <div className="w-full h-full">
       <MapContainer center={[48.669, 19.699]} minZoom={8} zoom={8}   style={{ height: '50vh', width: '100%' }}>
         {slovakiaData && <BoundaryLayer geojsonData={slovakiaData} />}
-        {RegionsData && <RegionsLayer data={RegionsData} setActiveRegionIDN4={setActiveRegionIDN4} />}
-        {districtsData && activeRegionIDN4 && <DistrictsLayer data={districtsData} activeRegionIDN4={activeRegionIDN4} setActiveDistrictName={setActiveDistrictName} />}
-        {citiesData && activeDistrictName && <CitiesLayer data={citiesData} activeDistrictName={activeDistrictName} />}
+        {RegionsData && <RegionsLayer data={RegionsData} setActiveRegionIDN4={setActiveRegionIDN4} handleRegionClick={handleRegionClick}/>}
+        {districtsData && activeRegionIDN4 && <DistrictsLayer data={districtsData} activeRegionIDN4={activeRegionIDN4} setActiveDistrictName={setActiveDistrictName} handleDistrictClick={handleDistrictClick} />}
+        {citiesData && activeDistrictName && <CitiesLayer data={citiesData} activeDistrictName={activeDistrictName} handleCityClick={handleCityClick} />}
       </MapContainer>
     </div>
   );
