@@ -7,7 +7,8 @@ export const DataProvider = ({ children }) => {
     const [selection, setSelection] = useState({ type: 'slovakia', id: null });
     const [activeTab, setActiveTab] = useState('obyvatelstvo');
     const [data, setData] = useState({});
-  
+    const [isLoading, setIsLoading] = useState(false); // Track loading state
+    const [error, setError] = useState(null); // Track errors
     // Function to determine which endpoint to hit based on selection type
     const fetchUrl = useCallback((type, id) => {
       switch (type) {
@@ -32,6 +33,8 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
       const fetchData = async () => {
         if ((selection.type === 'slovakia' || selection.id) && selection.type) {
+          setIsLoading(true); // Start loading
+          setError(null); // Reset error state
           const url = fetchUrl(selection.type, selection.id);
           try {
             const response = await axios.get(url);
@@ -44,6 +47,7 @@ export const DataProvider = ({ children }) => {
             }));
             console.log('Data fetched:', response.data);
           } catch (error) {
+            setError('Failed to fetch data'); // Set error message
             console.error('Error fetching data:', error);
             setData(prevData => ({ 
               ...prevData, 
@@ -62,7 +66,7 @@ export const DataProvider = ({ children }) => {
     };
   
     return (
-      <DataContext.Provider value={{ selection, updateSelection, activeTab, setActiveTab, data }}>
+      <DataContext.Provider value={{ selection, updateSelection, activeTab, setActiveTab, data, isLoading, error  }}>
       {children}
     </DataContext.Provider>
     );
