@@ -23,7 +23,6 @@ export const transformUniversalJsonStatToChartData = (jsonStatData) => {
     });
   
     // Convert the object into an array of objects for Recharts
-    console.log(transformed)
     return Object.values(transformed);
   };
 
