@@ -13,7 +13,7 @@ import {
 
   const BarChart = ({ dataset }) => {
     const data = transformUniversalJsonStatToChartData(dataset);
-
+    console.log(data);
     const categoryKeys = [...new Set(data.flatMap(item =>
         Object.keys(item).filter(key => key !== 'year')
     ))];
