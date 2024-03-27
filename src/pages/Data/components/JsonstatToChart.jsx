@@ -2,9 +2,8 @@ import JSONstat from 'jsonstat-toolkit';
 
 export const transformUniversalJsonStatToChartData = (jsonStatData) => {
 
-    const jsonStat = JSONstat(jsonStatData.data);
-
-    const dataset = jsonStat.Dataset(0);
+    const jsonStat = JSONstat(jsonStatData);
+   const dataset = jsonStat.Dataset(0);
     const rawData = dataset.toTable({ type: 'arrobj' });
     const transformed = {};
 

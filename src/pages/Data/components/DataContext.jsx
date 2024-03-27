@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { set } from 'lodash';
 
 export const DataContext = createContext();
 
@@ -53,7 +54,11 @@ export const DataProvider = ({ children }) => {
               ...prevData, 
               [activeTab]: null 
             }));
+            
+          } finally {
+            setIsLoading(false); // Set loading to false in finally block
           }
+          
         }
       };
   

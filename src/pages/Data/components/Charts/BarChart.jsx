@@ -12,8 +12,7 @@ import {
   } from 'recharts';
 
   const BarChart = ({ dataset }) => {
-    const { data } = transformUniversalJsonStatToChartData(dataset);
-
+    const  {data}  = transformUniversalJsonStatToChartData(dataset);
     const categoryKeys = [...new Set(data.flatMap(item =>
         Object.keys(item).filter(key => key !== 'year')
       ))];
