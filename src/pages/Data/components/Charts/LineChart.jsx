@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {transformUniversalJsonStatToChartData} from '../JsonstatToChart.jsx';
 import {
     LineChart as RechartsLineChart,
@@ -12,6 +12,8 @@ import {
 } from 'recharts';
 
 const LineChart = ({ dataset }) => {
+  const [showNote, setShowNote] = useState(false);
+
     const data = transformUniversalJsonStatToChartData(dataset);
     console.log(data);
     const categoryKeys = [...new Set(data.flatMap(item =>
@@ -23,6 +25,18 @@ const LineChart = ({ dataset }) => {
 
     // Return null or a placeholder if data is not available
     return (
+      <div>
+              <div className="text-center">
+        <h2 className="font-semibold text-lg mb-2">{dataset.label}</h2>
+        <button
+          onClick={() => setShowNote(!showNote)}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"
+        >
+          {showNote ? 'Less Information' : 'More Information'}
+        </button>
+        {showNote && <p className="text-sm text-gray-700 mb-4 mx-auto max-w-4xl">{dataset.note}</p>}
+      </div>
+      
         <ResponsiveContainer width="100%" height={400}>
         <RechartsLineChart
             data={data}
@@ -45,6 +59,7 @@ const LineChart = ({ dataset }) => {
             ))}
         </RechartsLineChart>
     </ResponsiveContainer>
+    </div>
     )
 };
 
