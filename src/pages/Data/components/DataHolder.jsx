@@ -45,7 +45,7 @@ const chartComponentMap = {
           return <div key={`error-${index}`}>Chart not found for ID: {dataset.id}</div>;
       }
   
-      return <ChartComponent key={dataset.id} dataset={dataset.data} />;
+      return <ChartComponent key={dataset.id} dataset={dataset.data} id={dataset.id} />;
   };
     
       if (isLoading) {

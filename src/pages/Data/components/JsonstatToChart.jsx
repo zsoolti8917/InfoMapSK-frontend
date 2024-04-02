@@ -3,13 +3,11 @@ import JSONstat from 'jsonstat-toolkit';
 export const transformUniversalJsonStatToChartData = (jsonStatData) => {
   const jsonStat = JSONstat(jsonStatData);
   const dataset = jsonStat.Dataset(0);
-
   // A generalized approach to identify and process all dimensions
   const dimensionKeys = dataset.id;
   const timeDimensionKey = jsonStat.role.time[0];
   const geoDimensionKey = jsonStat.role.geo[0];
   const metricDimensionKey = jsonStat.role.metric[0];
-  const pohDimensionKey = jsonStat.role.classification[1];
   const rawData = dataset.toTable({ type: 'arrobj', content: 'id' });
   const transformed = rawData.reduce((acc, item) => {
     const timeValue = item[timeDimensionKey];
@@ -23,7 +21,6 @@ export const transformUniversalJsonStatToChartData = (jsonStatData) => {
       if (key === timeDimensionKey) return;
       if (key === geoDimensionKey) return;
       if (key === metricDimensionKey) return;
-      if (key === pohDimensionKey) return;
       const dimensionValue = item[key];
       const dimensionLabel = dataset.Dimension(key).Category(dimensionValue).label;
       // Assign or aggregate values in the accumulator
