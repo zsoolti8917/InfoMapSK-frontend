@@ -34,13 +34,19 @@ const chartComponentMap = {
   
     // Function to determine which chart component to render based on dataset ID
     const renderChartComponent = (dataset, index) => {
-        const ChartComponent = chartComponentMap[dataset.id];
-        if (!ChartComponent) {
+      // Check if dataset.data exists
+      if (!dataset.data) {
+          // Here you can return null or any other fallback UI element if dataset.data doesn't exist
+          return <div key={`no-data-${index}`}>No data available for ID: {dataset.id}</div>;
+      }
+  
+      const ChartComponent = chartComponentMap[dataset.id];
+      if (!ChartComponent) {
           return <div key={`error-${index}`}>Chart not found for ID: {dataset.id}</div>;
-        }
-    
-        return <ChartComponent key={dataset.id} dataset={dataset.data} />;
-      };
+      }
+  
+      return <ChartComponent key={dataset.id} dataset={dataset.data} />;
+  };
     
       if (isLoading) {
         return <div>Loading data, please wait...</div>;
