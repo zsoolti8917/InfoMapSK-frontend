@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { transformUniversalJsonStatToChartData } from '../JsonstatToChart.jsx';
 import {
   BarChart as RechartsBarChart,
@@ -12,6 +12,8 @@ import {
 } from 'recharts';
 
 const StackedBarChart = ({ dataset, id }) => {
+  const [showNote, setShowNote] = useState(false);
+
   const data = transformUniversalJsonStatToChartData(dataset);
 
   // Check if the ID matches "obyvatelstvoTabulka1"
@@ -31,14 +33,19 @@ const StackedBarChart = ({ dataset, id }) => {
 
   // Return null or a placeholder if data is not available
   return (
-    <ResponsiveContainer width="100%" height={400}>
+<div className='w-full'>
+      <div className='w-[85%] mx-auto'>
+        <h2 className="font-semibold text-3xl mb-2 text-white">{dataset.label}</h2>
+        
+      </div>
+    <ResponsiveContainer width="90%" className='mx-auto' height={400}>
       <RechartsBarChart
         data={data}
         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" />
-        <YAxis />
+        <XAxis dataKey="year" stroke='white'/>
+        <YAxis stroke='white'/>
         <Tooltip />
         <Legend />
         {categoryKeys.map((key, index) => (
@@ -52,6 +59,16 @@ const StackedBarChart = ({ dataset, id }) => {
         ))}
       </RechartsBarChart>
     </ResponsiveContainer>
+    <div className='max-w-[80%] mx-auto text-end'>
+      <button
+          onClick={() => setShowNote(!showNote)}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4"
+        >
+          {showNote ? 'Less Information' : 'More Information'}
+        </button>
+        {showNote && <p className="text-sm text-primary-100 mx-auto w-full text-left">{dataset.note}</p>}
+      </div>
+    </div>
   );
 };
 

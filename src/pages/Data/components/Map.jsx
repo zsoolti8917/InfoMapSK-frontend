@@ -314,8 +314,8 @@ const bounds = L.latLngBounds(corner1, corner2);
   }, [activeRegionIDN4]);
 
   return (
-    <div className="w-full h-full">
-      <MapContainer center={[48.669, 19.699]} minZoom={8} zoom={8}   style={{ height: '50vh', width: '100%' }}>
+    <div className="w-full h-full bg-primary-700">
+      <MapContainer center={[48.669, 19.699]} minZoom={8} zoom={8} scrollWheelZoom={false}  style={{ height: '50vh', width: '100%' }} className='bg-secondary-600'>
         {slovakiaData && <BoundaryLayer geojsonData={slovakiaData} />}
         {RegionsData && <RegionsLayer data={RegionsData} setActiveRegionIDN4={setActiveRegionIDN4} handleRegionClick={handleRegionClick}/>}
         {districtsData && activeRegionIDN4 && <DistrictsLayer data={districtsData} activeRegionIDN4={activeRegionIDN4} setActiveDistrictName={setActiveDistrictName} handleDistrictClick={handleDistrictClick} />}

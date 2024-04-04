@@ -5,7 +5,7 @@ import bgGraph from '../../../assets/bg-pattern-home-3.svg'
 import React from 'react'
 const Info = () => {
   return (
-    <section className='bg-secondary-800 font-livvic relative'>
+    <section className='bg-secondary-800 font-livvic relative overflow-hidden'>
         <div className='text-primary-100 px-6 lg:px-0 py-12 max-w-[600px] lg:max-w-[800px] mx-auto desktop:max-w-container desktop:flex desktop:gap-4'>
             <div className='relative'>
             <div className='absolute w-[44px] h-[5px] bg-primary-300 top-0 left-0'></div>

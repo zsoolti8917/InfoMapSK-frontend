@@ -45,7 +45,13 @@ const chartComponentMap = {
           return <div key={`error-${index}`}>Chart not found for ID: {dataset.id}</div>;
       }
   
-      return <ChartComponent key={dataset.id} dataset={dataset.data} id={dataset.id} />;
+      return (
+        <div className='bg-primary-700 flex flex-col gap-20'>
+          <hr />
+        <ChartComponent key={dataset.id} dataset={dataset.data} id={dataset.id} />;
+        
+        </div>
+      )
   };
     
       if (isLoading) {

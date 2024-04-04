@@ -18,12 +18,14 @@ const Data = () => {
     <div>
     <Nav />
     <Hero />
+    <Banner />
     <DataProvider>
     <SlovakiaMap />
+    
     <TabsContainer />
     <DataHolder />
     </DataProvider>
-    <Banner />
+    
     <Footer />
   </div>
   )
