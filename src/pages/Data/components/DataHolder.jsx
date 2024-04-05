@@ -46,10 +46,11 @@ const chartComponentMap = {
       }
   
       return (
-        <div className='bg-primary-700 flex flex-col gap-20'>
-          <hr />
-        <ChartComponent key={dataset.id} dataset={dataset.data} id={dataset.id} />;
+        <div className='bg-primary-700 flex flex-col ' key={dataset.id}>
+          
+        <ChartComponent dataset={dataset.data} id={dataset.id} title={dataset.title} />;
         
+        <hr className='max-w-[90%] w-full mx-auto '/>
         </div>
       )
   };

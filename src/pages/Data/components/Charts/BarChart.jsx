@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-const StackedBarChart = ({ dataset, id }) => {
+const StackedBarChart = ({ dataset, id, title}) => {
   const data = transformUniversalJsonStatToChartData(dataset);
   const [showNote, setShowNote] = useState(false);
 
@@ -27,9 +27,9 @@ const StackedBarChart = ({ dataset, id }) => {
   const fillColors = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#a28d82', '#d88282', '#82a8d8'];
 
   return (
-    <div className='w-full'>
+    <div className='w-full mt-10'>
       <div className='w-[85%] mx-auto'>
-        <h2 className="font-semibold text-3xl mb-2 text-white">{dataset.label}</h2>
+        <h2 className="font-semibold text-3xl mb-2 text-white">{title}</h2>
         
       </div>
       <ResponsiveContainer width="90%" className='mx-auto' height={400}>
@@ -48,7 +48,6 @@ const StackedBarChart = ({ dataset, id }) => {
               dataKey={key}
               name={key}
               fill={fillColors[index % fillColors.length]}
-              stackId="a"
             />
           ))}
         </RechartsBarChart>

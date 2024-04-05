@@ -11,6 +11,38 @@ export const DataProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false); // Track loading state
     const [error, setError] = useState(null); // Track errors
     // Function to determine which endpoint to hit based on selection type
+    const STORAGE_KEYS = 'storage-keys';
+
+
+    const updateStorageKeys = (newKey) => {
+      const keys = JSON.parse(localStorage.getItem(STORAGE_KEYS)) || [];
+      if (!keys.includes(newKey)) {
+        keys.push(newKey);
+      }
+      localStorage.setItem(STORAGE_KEYS, JSON.stringify(keys));
+    };
+    
+    const removeOldestItem = () => {
+      const keys = JSON.parse(localStorage.getItem(STORAGE_KEYS)) || [];
+      if (keys.length > 0) {
+        const oldestKey = keys.shift(); // Remove the oldest key
+        localStorage.removeItem(oldestKey);
+        localStorage.setItem(STORAGE_KEYS, JSON.stringify(keys)); // Update the keys in local storage
+      }
+    };
+    
+    const safeSetItem = (key, value) => {
+      try {
+        localStorage.setItem(key, value);
+        updateStorageKeys(key);
+      } catch (e) {
+        if (e.code === DOMException.QUOTA_EXCEEDED_ERR) {
+          removeOldestItem();
+          localStorage.setItem(key, value);
+          updateStorageKeys(key);
+        }
+      }
+    };
     const fetchUrl = useCallback((type, id) => {
       switch (type) {
         case 'slovakia':
@@ -33,37 +65,61 @@ export const DataProvider = ({ children }) => {
 
     useEffect(() => {
       const fetchData = async () => {
-        if ((selection.type === 'slovakia' || selection.id) && selection.type) {
-          setIsLoading(true); // Start loading
-          setError(null); // Reset error state
-          const url = fetchUrl(selection.type, selection.id);
-          try {
-            const response = await axios.get(url);
+        const storageKey = `${selection.type}-${selection.id}-${activeTab}`;
+        const cachedData = localStorage.getItem(storageKey);
+        const now = new Date();
+    
+        if (cachedData) {
+          const { expiry, data } = JSON.parse(cachedData);
+          if (now.getTime() < expiry) {
+            console.log(`Loading data from local storage for ${activeTab}`);
             setData(prevData => ({
               ...prevData, 
               [activeTab]: {
-                data: response.data,
-                key: selection.key, // Adding a key to help React detect changes
+                data,
+                key: selection.key,
               }
             }));
-            console.log('Data fetched:', response.data);
-          } catch (error) {
-            setError('Failed to fetch data'); // Set error message
-            console.error('Error fetching data:', error);
-            setData(prevData => ({ 
-              ...prevData, 
-              [activeTab]: null 
-            }));
-            
-          } finally {
-            setIsLoading(false); // Set loading to false in finally block
+            return; // Stop execution here to use the cached data
+          } else {
+            localStorage.removeItem(storageKey); // Remove expired data
           }
-          
+        }
+    
+        setIsLoading(true);
+        setError(null);
+        const url = fetchUrl(selection.type, selection.id);
+        try {
+          const response = await axios.get(url);
+          const dataToStore = {
+            data: response.data,
+            expiry: now.getTime() + (7 * 24 * 60 * 60 * 1000), // 1 week expiry
+          };
+          safeSetItem(storageKey, JSON.stringify(dataToStore));
+          console.log('Data fetched from server:', response.data);
+          setData(prevData => ({
+            ...prevData, 
+            [activeTab]: {
+              data: response.data,
+              key: selection.key,
+            }
+          }));
+        } catch (error) {
+          setError('Failed to fetch data');
+          console.error('Error fetching data:', error);
+          setData(prevData => ({ 
+            ...prevData, 
+            [activeTab]: null 
+          }));
+        } finally {
+          setIsLoading(false);
         }
       };
-  
+    
       fetchData();
-    }, [selection, fetchUrl, activeTab]); // Use selection as a dependency to trigger fetch
+    }, [selection, fetchUrl, activeTab]);
+    
+    
   
     const updateSelection = (type, id) => {
       setSelection({ type, id, key: Date.now() });

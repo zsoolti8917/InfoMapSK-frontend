@@ -23,6 +23,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path=':type' element={<Data />}>
         <Route path=':id' element={<Data />} />
       </Route>
+
+      
       </Route>
       <Route path='/FAQ' element={<FAQ/>} />
       <Route path='/contact' element={<Contact/>} />

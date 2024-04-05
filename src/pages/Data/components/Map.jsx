@@ -258,7 +258,7 @@ const SlovakiaMap = () => {
 
   const handleDistrictClick = (id) => {
     updateSelection('district', id);
-    //navigate(`/data/district/${id}`);
+   // navigate(`/data/district/${id}`);
     console.log(id);
   };
 
