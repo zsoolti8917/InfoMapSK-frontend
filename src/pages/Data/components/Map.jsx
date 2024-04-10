@@ -251,20 +251,20 @@ const SlovakiaMap = () => {
 
   const handleRegionClick = (id) => {
     updateSelection('region', id);
-    //navigate(`/data/region/${id}`);
+    navigate(`/data/region/${id}`);
 
     console.log(id);
   };
 
   const handleDistrictClick = (id) => {
     updateSelection('district', id);
-   // navigate(`/data/district/${id}`);
+   navigate(`/data/district/${id}`);
     console.log(id);
   };
 
   const handleCityClick = (id) => {
     updateSelection('city', id);
-    //navigate(`/data/city/${id}`);
+    navigate(`/data/city/${id}`);
     console.log(id);
   };
 

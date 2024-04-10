@@ -16,7 +16,7 @@ const HorizontalStackedBarChart = ({ dataset, title }) => {
 
   const data = transformUniversalJsonStatToChartData(dataset);
   const categoryKeys = Object.keys(data[0]).filter(key => key !== 'year');
-
+console.log(data)
   // Generate a unique fill color for each stacked segment
   const fillColors = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#a28d82', '#d88282', '#82a8d8'];
 
@@ -34,7 +34,7 @@ const HorizontalStackedBarChart = ({ dataset, title }) => {
         >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="number"stroke='white' />
-            <YAxis type="category" width={80} stroke='white'/> {/* 'year' is not included in categoryKeys */}
+            <YAxis type="category" width={80} stroke='white' dataKey="year"/> {/* 'year' is not included in categoryKeys */}
             <Tooltip />
             <Legend />
             {categoryKeys.map((key, index) => (

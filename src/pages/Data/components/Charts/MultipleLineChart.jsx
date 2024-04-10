@@ -11,14 +11,23 @@ import {
     ResponsiveContainer
 } from 'recharts';
 
-const MultipleLineChart = ({ dataset, title }) => {
+const MultipleLineChart = ({ dataset, title, id }) => {
     const [showNote, setShowNote] = useState(false);
 
   const data = transformUniversalJsonStatToChartData(dataset);
-  const categoryKeys = [...new Set(data.flatMap(item =>
-      Object.keys(item).filter(key => key !== 'year')
-  ))];
-
+  
+let categoryKeys = [];
+  if (id === "ekonomikaTabulka3") {  
+    console.log(data)
+    categoryKeys = ["Index ekonomického zaťaženia osôb (Percento)", "Muži", "Ženy"];
+  }else if (id === "ekonomikaTabulka4") {  
+    console.log(data)
+    categoryKeys = ["Index starnutia (Percento)", "Muži", "Ženy"];
+  }else{
+    categoryKeys = [...new Set(data.flatMap(item =>
+        Object.keys(item).filter(key => key !== 'year')
+    ))];
+  }
   // Generate a unique stroke color for each line
   const strokeColors = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#a28d82', '#d88282', '#82a8d8'];
 

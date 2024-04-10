@@ -18,7 +18,7 @@ const StackedBarChart = ({ dataset, id, title}) => {
   let categoryKeys = [];
   if (id === "obyvatelstvoTabulka1") {
     categoryKeys = ["Muži", "Ženy"];
-  } else {
+  } else{
     categoryKeys = [...new Set(data.flatMap(item =>
       Object.keys(item).filter(key => key !== 'year')
     ))];

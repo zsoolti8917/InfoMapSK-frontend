@@ -21,6 +21,9 @@ const StackedBarChart = ({ dataset, id, title }) => {
   let categoryKeys = [];
   if (id === "obyvatelstvoTabulka1") {
     categoryKeys = ["Muži", "Ženy"];
+  } else if (id === "ekonomikaTabulka2") {  
+    console.log(data)
+    categoryKeys = ["Podiel osôb v poproduktívnom veku (Percento)", "Podiel osôb v predproduktívnom veku (Percento)", "Podiel osôb v produktívnom veku (Percento)"];
   } else {
     categoryKeys = [...new Set(data.flatMap(item =>
       Object.keys(item).filter(key => key !== 'year')
