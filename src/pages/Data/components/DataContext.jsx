@@ -10,6 +10,7 @@ export const DataProvider = ({ children }) => {
     const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(false); // Track loading state
     const [error, setError] = useState(null); // Track errors
+    const [listData, setListData] = useState([]);
     // Function to determine which endpoint to hit based on selection type
     const STORAGE_KEYS = 'storage-keys';
 
@@ -125,9 +126,24 @@ export const DataProvider = ({ children }) => {
       setSelection({ type, id, key: Date.now() });
 
     };
+
+
+    useEffect(() => {
+      const fetchListData = async () => {
+        try {
+          const response = await axios.get('http://localhost:5500/list/places');
+          setListData(response.data);
+          console.log('List data fetched:', response.data);
+        } catch (error) {
+          console.error('Error fetching list data:', error);
+        }
+      };
+  
+      fetchListData();
+    }, []);
   
     return (
-      <DataContext.Provider value={{ selection, updateSelection, activeTab, setActiveTab, data, isLoading, error  }}>
+      <DataContext.Provider value={{ selection, updateSelection, activeTab, setActiveTab, data, isLoading, error, listData, setListData, safeSetItem  }}>
       {children}
     </DataContext.Provider>
     );
