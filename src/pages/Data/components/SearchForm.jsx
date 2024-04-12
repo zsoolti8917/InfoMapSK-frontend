@@ -1,29 +1,58 @@
-import Button from '../../../components/Button'
-import MagnifyingGlass from '../../../assets/magnifying-glass.svg'
-import React from 'react'
-const SearchForm = () => {
-  return (
-    <form action="submit" className='relative'>
-    <input type="text"
-    placeholder="Hľadať regióny, okresy alebo obce..."
-    className='border-0 rounded-md p-2 pl-12 hidden md:block mb-6 lg:inline-block lg:mb-0 lg:mr-6 desktop:min-w-[365px]'
-    />
-    <img src={MagnifyingGlass} alt="lupa" className='max-w-[20px] absolute top-3 left-4 hidden md:block'/>
-    <Button 
-    customTextColor="text-primary-100"
-    customBorderColor="border-secondary-800"
-    customHoverBgColor="hover:bg-primary-100"
-    customHoverTextColor="hover:text-primary-700"
-    customPaddingX="desktop:px-10 px-6"
-    customPaddingY="py-3"
-    customBgColor="bg-primary-700"
-    customRounded="rounded-2xl"
-    customBorder="border-0"
-    >
-      Hľadať
-    </Button>
-  </form>
-  )
-}
+import React, { useState, useContext, useEffect } from 'react';
+import { DataContext } from './DataContext.jsx'
+import axios from 'axios';
 
-export default SearchForm
+const Search = () => {
+  const [input, setInput] = useState('');
+  const { updateSelection } = useContext(DataContext);
+  const { listData } = useContext(DataContext);
+
+
+
+  // Function to handle input changes and search the list
+  const handleInputChange = (event) => {
+    setInput(event.target.value);
+  };
+
+  // Filter the list based on the input
+  const filteredList = input.length > 0 
+    ? listData.filter(item => item.name.toLowerCase().includes(input.toLowerCase()))
+    : [];
+
+  // Function to handle selecting an item from the list
+  const handleSelectItem = (type, id) => {
+    console.log('Selected:', type, id);
+    updateSelection(type, id);
+    setInput(''); // Clear the input after selection
+    
+  };
+
+  return (
+<div className="relative w-[50%]">
+    <input
+        type="text"
+        value={input}
+        onChange={handleInputChange}
+        placeholder="Search regions, districts, or cities..."
+        className="w-full p-2 border border-gray-300 rounded-md"
+    />
+    <div className="absolute  w-full bg-white lg:max-h-24 max-h-20 overflow-y-auto shadow-lg mt-1 z-10 border border-gray-200">
+        {filteredList.length > 0 ? (
+            filteredList.map((item, index) => (
+                <div
+                    key={index}
+                    onClick={() => handleSelectItem(item.type, item.IDN)}
+                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                >
+                    {item.name} ({item.SKType})
+                </div>
+            ))
+        ) : (
+            <div className="p-2 text-gray-500">No results found</div>
+        )}
+    </div>
+</div>
+  );
+};
+
+export default Search;

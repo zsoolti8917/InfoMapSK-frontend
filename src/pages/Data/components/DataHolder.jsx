@@ -68,7 +68,7 @@ const chartComponentMap = {
       }
     
       return (
-        <div>
+        <div className='min-h-80'>
           {categoryData.data.map((dataset, index) => renderChartComponent(dataset, index))}
         </div>
       );

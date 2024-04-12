@@ -18,10 +18,10 @@ const Data = () => {
     <div>
     <Nav />
     <Hero />
-    <Banner />
-    <DataProvider>
-    <SlovakiaMap />
     
+    <DataProvider>
+    <Banner />
+    <SlovakiaMap />
     <TabsContainer />
     <DataHolder />
     </DataProvider>

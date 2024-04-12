@@ -246,7 +246,7 @@ const SlovakiaMap = () => {
   const [activeRegionIDN4, setActiveRegionIDN4] = useState(null); // Now tracking the IDN4 of the active region
   const [citiesData, setCitiesData] = useState(null);
   const [activeDistrictName, setActiveDistrictName] = useState(null);
-  const { updateSelection } = useContext(DataContext);
+  const { updateSelection, safeSetItem } = useContext(DataContext);
   const navigate = useNavigate();
 
   const handleRegionClick = (id) => {
@@ -274,39 +274,48 @@ const corner2 = L.latLng(50.149, 23.862); // Northeast corner of Slovakia
 const bounds = L.latLngBounds(corner1, corner2);
 
 
-  useEffect(() => {
-    // Load the GeoJSON data when the component mounts
-    axios.get('http://localhost:5500/get-slovakia-geojson')
-    .then(response => {
-      setSlovakiaData(response.data);
-    }).catch(error => {
-      console.error('Error loading the Slovakia GeoJSON:', error);
-    });
+useEffect(() => {
+  const fetchData = async () => {
+    const slovakiaGeoJsonKey = 'slovakiaGeoJson';
+    const regionsGeoJsonKey = 'regionsGeoJson';
+    const districtsGeoJsonKey = 'districtsGeoJson';
+    const citiesGeoJsonKey = 'citiesGeoJson';
 
-    axios.get('http://localhost:5500/get-regions-geojson')
-    .then(response => {
-      setRegionsData(response.data);
-    }).catch(error => {
-      console.error('Error loading the Slovakia GeoJSON:', error);
-    });
+    // A helper function to fetch and cache data
+    const fetchAndCacheData = async (url, key) => {
+      const cachedData = localStorage.getItem(key);
+      if (cachedData) {
+        return JSON.parse(cachedData);
+      } else {
+        try {
+          const response = await axios.get(url);
+          const data = response.data;
+          safeSetItem(key, JSON.stringify(data)); // Use the safeSetItem for storage
+          return data;
+        } catch (error) {
+          console.error(`Error loading the GeoJSON from ${url}:`, error);
+          return null;
+        }
+      }
+    };
 
-    axios.get('http://localhost:5500/get-districts-geojson')
-    .then(response => {
-      setDistrictsData(response.data);
-    }).catch(error => {
-      console.error('Error loading the Slovakia GeoJSON:', error);
-    });
+    // Use the helper function to fetch and set data
+    const slovakiaData = await fetchAndCacheData('http://localhost:5500/get-slovakia-geojson', slovakiaGeoJsonKey);
+    if (slovakiaData) setSlovakiaData(slovakiaData);
 
-    axios.get('http://localhost:5500/get-cities-geojson')
-    .then(response => {
-      setCitiesData(response.data);
-    }).catch(error => {
-      console.error('Error loading the Slovakia GeoJSON:', error);
-    });
+    const regionsData = await fetchAndCacheData('http://localhost:5500/get-regions-geojson', regionsGeoJsonKey);
+    if (regionsData) setRegionsData(regionsData);
 
-    // Adjust the path to your Regions' GeoJSON
-      
-  }, []);
+    const districtsData = await fetchAndCacheData('http://localhost:5500/get-districts-geojson', districtsGeoJsonKey);
+    if (districtsData) setDistrictsData(districtsData);
+
+    const citiesData = await fetchAndCacheData('http://localhost:5500/get-cities-geojson', citiesGeoJsonKey);
+    if (citiesData) setCitiesData(citiesData);
+  };
+
+  fetchData();
+}, []); // The empty array ensures this effect runs only once when the component mounts.
+
 
   useEffect(() => {
     // Reset the active district name when the active region changes
