@@ -32,8 +32,8 @@ const Data = () => {
 }
 
 const TabsContainer = () =>{
-  const {activeTab, setActiveTab} = useContext(DataContext);
-  return <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+  const {activeTab, setActiveTab, selection, listData} = useContext(DataContext);
+  return <Tabs activeTab={activeTab} setActiveTab={setActiveTab}  selection={selection} listData={listData}/>
 }
 
 export default Data

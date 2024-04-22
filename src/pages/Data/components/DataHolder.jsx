@@ -29,9 +29,8 @@ const chartComponentMap = {
   };
   
   const DataHolder = () => {
-    const { activeTab, data, isLoading, error } = useContext(DataContext); // Assuming isLoading and error are part of your context
+    const { activeTab, data, isLoading, error, selection } = useContext(DataContext); // Assuming isLoading and error are part of your context
     const categoryData = data[activeTab];
-  
     // Function to determine which chart component to render based on dataset ID
     const renderChartComponent = (dataset, index) => {
       // Check if dataset.data exists
@@ -55,23 +54,19 @@ const chartComponentMap = {
       )
   };
     
-      if (isLoading) {
-        return <div>Loading data, please wait...</div>;
-      }
-    
-      if (error) {
-        return <div>Error loading data: {error}</div>; // Display error message
-      }
-    
-      if (!categoryData) {
-        return <div>Select a category...</div>;
-      }
-    
-      return (
-        <div className='min-h-80'>
-          {categoryData.data.map((dataset, index) => renderChartComponent(dataset, index))}
-        </div>
-      );
+  return (
+    <div className='min-h-80' >
+        {isLoading ? (
+            <div className='bg-primary-700 h-96 text-white text-2xl text-center pt-16'>Loading data, please wait...</div>
+        ) : error ? (
+            <div className='bg-primary-700 h-96 text-white text-2xl text-center pt-16'>Error loading data: {error}</div>
+        ) : categoryData ? (
+            categoryData.data.map((dataset, index) => renderChartComponent(dataset, index))
+        ) : (
+            <div className='bg-primary-700 h-96 text-white text-2xl text-center pt-16'>Select a category...</div>
+        )}
+    </div>
+);
     };
 
 export default DataHolder

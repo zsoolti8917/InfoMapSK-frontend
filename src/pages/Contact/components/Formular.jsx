@@ -25,7 +25,7 @@ const formik = useFormik({
 
   onSubmit: async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await axios.post('http://localhost:5500/send-email', values);
+      const response = await axios.post('https://infomapsk-91a6bb6050b3.herokuapp.com/send-email', values);
       console.log(response.data);
       navigate('/contact/success'); // Navigate to the success page
       setTimeout(() => {

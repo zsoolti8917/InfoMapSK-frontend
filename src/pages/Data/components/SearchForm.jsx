@@ -1,11 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { DataContext } from './DataContext.jsx'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Search = () => {
   const [input, setInput] = useState('');
   const { updateSelection } = useContext(DataContext);
   const { listData } = useContext(DataContext);
+  const { dataHolderRef } = useContext(DataContext);
+  const navigate = useNavigate(); // Initialize useNavigate
+
 
 
 
@@ -24,7 +28,13 @@ const Search = () => {
     console.log('Selected:', type, id);
     updateSelection(type, id);
     setInput(''); // Clear the input after selection
-    
+    navigate(`/data/${type}/${id}`);
+    if (dataHolderRef && dataHolderRef.current) {
+      dataHolderRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
 
   return (

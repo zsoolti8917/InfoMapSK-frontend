@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import { set } from 'lodash';
 
@@ -11,6 +11,7 @@ export const DataProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false); // Track loading state
     const [error, setError] = useState(null); // Track errors
     const [listData, setListData] = useState([]);
+    const dataHolderRef = useRef(null);
     // Function to determine which endpoint to hit based on selection type
     const STORAGE_KEYS = 'storage-keys';
 
@@ -48,17 +49,17 @@ export const DataProvider = ({ children }) => {
       switch (type) {
         case 'slovakia':
           console.log('slovakia');
-          return `http://localhost:5500/api/slovakia/${id}/${activeTab}`;
+          return `https://infomapsk-91a6bb6050b3.herokuapp.com/api/slovakia/${id}/${activeTab}`;
         case 'region':
           console.log('region');
-          return `http://localhost:5500/api/regions/${id}/${activeTab}`;
+          return `https://infomapsk-91a6bb6050b3.herokuapp.com/api/regions/${id}/${activeTab}`;
         case 'district':
           console.log('district');
-          return `http://localhost:5500/api/districts/${id}/${activeTab}`;
+          return `https://infomapsk-91a6bb6050b3.herokuapp.com/api/districts/${id}/${activeTab}`;
         case 'city':
           console.log('city request sending...');
           console.log(activeTab)
-          return `http://localhost:5500/api/cities/${id}/${activeTab}`;
+          return `https://infomapsk-91a6bb6050b3.herokuapp.com/api/cities/${id}/${activeTab}`;
         default:
           throw new Error(`Unknown selection type: ${type}`);
       }
@@ -131,7 +132,7 @@ export const DataProvider = ({ children }) => {
     useEffect(() => {
       const fetchListData = async () => {
         try {
-          const response = await axios.get('http://localhost:5500/list/places');
+          const response = await axios.get('https://infomapsk-91a6bb6050b3.herokuapp.com/list/places');
           setListData(response.data);
           console.log('List data fetched:', response.data);
         } catch (error) {
@@ -143,7 +144,7 @@ export const DataProvider = ({ children }) => {
     }, []);
   
     return (
-      <DataContext.Provider value={{ selection, updateSelection, activeTab, setActiveTab, data, isLoading, error, listData, setListData, safeSetItem  }}>
+      <DataContext.Provider value={{ selection, updateSelection, activeTab, setActiveTab, data, isLoading, error, listData, setListData, safeSetItem, dataHolderRef  }}>
       {children}
     </DataContext.Provider>
     );

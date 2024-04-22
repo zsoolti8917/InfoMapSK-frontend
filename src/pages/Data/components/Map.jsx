@@ -183,7 +183,8 @@ const CitiesLayer = ({ data, activeDistrictName, handleCityClick }) => {
     if (activeDistrictName) {
       const filteredData = {
         ...data,
-        features: data.features.filter(city => city.properties.district === activeDistrictName),
+        features: data.features.filter(city =>
+          city.properties.district === activeDistrictName && city.properties.IDN5)
       };
 
       citiesLayer = L.geoJSON(filteredData, {
@@ -300,16 +301,16 @@ useEffect(() => {
     };
 
     // Use the helper function to fetch and set data
-    const slovakiaData = await fetchAndCacheData('http://localhost:5500/get-slovakia-geojson', slovakiaGeoJsonKey);
+    const slovakiaData = await fetchAndCacheData('https://infomapsk-91a6bb6050b3.herokuapp.com//get-slovakia-geojson', slovakiaGeoJsonKey);
     if (slovakiaData) setSlovakiaData(slovakiaData);
 
-    const regionsData = await fetchAndCacheData('http://localhost:5500/get-regions-geojson', regionsGeoJsonKey);
+    const regionsData = await fetchAndCacheData('https://infomapsk-91a6bb6050b3.herokuapp.com//get-regions-geojson', regionsGeoJsonKey);
     if (regionsData) setRegionsData(regionsData);
 
-    const districtsData = await fetchAndCacheData('http://localhost:5500/get-districts-geojson', districtsGeoJsonKey);
+    const districtsData = await fetchAndCacheData('https://infomapsk-91a6bb6050b3.herokuapp.com//get-districts-geojson', districtsGeoJsonKey);
     if (districtsData) setDistrictsData(districtsData);
 
-    const citiesData = await fetchAndCacheData('http://localhost:5500/get-cities-geojson', citiesGeoJsonKey);
+    const citiesData = await fetchAndCacheData('https://infomapsk-91a6bb6050b3.herokuapp.com//get-cities-geojson', citiesGeoJsonKey);
     if (citiesData) setCitiesData(citiesData);
   };
 
