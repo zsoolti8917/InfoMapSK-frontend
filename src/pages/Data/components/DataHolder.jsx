@@ -1,5 +1,4 @@
 import Button from '../../../components/Button.jsx'
-import DataHolderItem from './DataHolderItem.jsx'
 import React, {useContext} from 'react'
 import { DataContext } from './DataContext.jsx'
 import MyBarChart from './Charts/BarChart.jsx'
