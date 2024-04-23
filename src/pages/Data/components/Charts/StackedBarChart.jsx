@@ -16,7 +16,7 @@ const CustomTooltip = ({ active, payload, label, showFullTooltip }) => {
   if (active && payload && payload.length) {
       if (showFullTooltip) {
           return (
-            <div className="custom-tooltip" style={{ backgroundColor: 'white', padding: '10px', border: '1px solid #cccccc' }}>
+            <div className="custom-tooltip rounded-lg" style={{ backgroundColor: 'white', padding: '10px', border: '1px solid #cccccc' }}>
             <p className="label">{`Rok: ${payload[0].payload.year}`}</p>
             {payload.map((entry, index) => (
                 <div key={index} style={{ color: entry.color }}>
@@ -28,7 +28,7 @@ const CustomTooltip = ({ active, payload, label, showFullTooltip }) => {
           );
       } else {
           return (
-            <div className="custom-tooltip" style={{ backgroundColor: 'white', padding: '10px', border: '1px solid #cccccc' }}>
+            <div className="custom-tooltip rounded-lg" style={{ backgroundColor: 'white', padding: '10px', border: '1px solid #cccccc' }}>
             <p className="label">{`Rok: ${payload[0].payload.year}`}</p>
             {payload.map((entry, index) => (
                 <div key={index} style={{ color: entry.color }}>

@@ -43,7 +43,7 @@ const Search = () => {
         type="text"
         value={input}
         onChange={handleInputChange}
-        placeholder="Search regions, districts, or cities..."
+        placeholder="Vyhľadajte kraje, okresy alebo mestá..."
         className="w-full p-2 border border-gray-300 rounded-md"
     />
     <div className="absolute  w-full bg-white lg:max-h-24 max-h-20 overflow-y-auto shadow-lg mt-1 z-10 border border-gray-200">
@@ -58,7 +58,7 @@ const Search = () => {
                 </div>
             ))
         ) : (
-            <div className="p-2 text-gray-500">No results found</div>
+            <div className="p-2 text-gray-500">Neboli nájdené žiadne výsledky</div>
         )}
     </div>
 </div>
