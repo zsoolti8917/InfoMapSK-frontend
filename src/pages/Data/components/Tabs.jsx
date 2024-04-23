@@ -24,10 +24,10 @@ const Tabs = ({ activeTab, setActiveTab, selection, listData }) => {
   }, [selection, listData]);
   return (
     <div className='bg-primary-700 w-full pt-10' ref={dataHolderRef}>
-      <div className="text-white text-center mb-12 text-2xl">
+      <div className="text-white mb-12 text-2xl text-center px-8 md:px-4">
         Zvolené: {selectedName} ({selection.type.toUpperCase()} - ID: {selection.id || 'None'})
       </div>
-      <div className="flex justify-between flex-wrap space-x-1 bg-primary-700 max-w-[80%] mx-auto">
+      <div className="flex md:justify-between flex-col gap-4 md:flex-row space-x-1 bg-primary-700 max-w-[80%] mx-auto">
         {tabs.map((tab) => (
           <button
             key={tab.id}

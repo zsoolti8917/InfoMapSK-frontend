@@ -8,7 +8,7 @@ const Navbar = () => {
 
   let Links = [
     { name: "O projekte", link: "/about" },
-    { name: "Data", link: "/data" },
+    { name: "Vizualizácie dát", link: "/data" },
     { name: "FAQ", link: "/FAQ" },
   ];
   let [open, setOpen] = useState(false);

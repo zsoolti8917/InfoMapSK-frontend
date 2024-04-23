@@ -1,6 +1,8 @@
 import BgLogo from '../assets/bg-pattern-home-6-about-5.svg'
 import Button from './Button'
 import React from 'react'
+import { Link } from 'react-router-dom';
+
 const Banner = () => {
   return (
     <section className='bg-primary-300 min-h-[300px] flex items-center font-livvic relative overflow-hidden'>
@@ -8,6 +10,7 @@ const Banner = () => {
         <h3 className='text-4xl font-extrabold lg:text-h2 flex-1 desktop:text-start'>
         Ste pripravení začať?
         </h3>   
+        <Link to="/data" className="no-underline">
         <Button
         customTextColor="text-secondary-800"
         customBorderColor="border-secondary-800"
@@ -18,6 +21,7 @@ const Banner = () => {
         >
         Začnite teraz
       </Button> 
+      </Link>
       </div>
 
       
